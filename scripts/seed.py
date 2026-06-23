@@ -28,18 +28,23 @@ categories = [
     "Home"
 ]
 
-for i in range(100):
+products = []
 
-    product = Product(
-        name=fake.word(),
-        category=choice(categories),
-        price=round(uniform(100, 5000), 2),
-        created_at=datetime.now()
+for i in range(200000):
+    products.append(
+        Product(
+            name=fake.word(),
+            category=choice(categories),
+            price=round(uniform(100, 5000), 2),
+            created_at=datetime.now()
+        )
     )
 
-    db.add(product)
+    if (i + 1) % 10000 == 0:
+        print(f"{i + 1} products prepared")
 
+db.bulk_save_objects(products)
 db.commit()
 db.close()
 
-print("100 products inserted successfully")
+print("200000 products inserted successfully")
